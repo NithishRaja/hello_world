@@ -7,6 +7,7 @@
 const http = require("http");
 const url = require("url");
 const StringDecoder = require("string_decoder").StringDecoder;
+const config = require("./config");
 
 // Initiating HTTP server
 const httpServer = http.createServer(function(req, res){
@@ -72,8 +73,8 @@ const serverLogic = function(req, res){
 };
 
 // Set port for HTTP server to listen to
-httpServer.listen(80, function(){
-  console.log("server is listening to port 80, press ctrl+c to exit");
+httpServer.listen(config.httpPort, function(){
+  console.log("server is listening to port "+config.httpPort+", press ctrl+c to exit");
 });
 
 // Initializing container for handlers

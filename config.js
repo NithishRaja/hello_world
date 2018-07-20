@@ -25,3 +25,6 @@ const requiredEnvironment = typeof(process.env.NODE_ENV) == "string"?process.env
 
 // Getting environement to export, if doesn't exist then exporting default environement
 const exportEnvironment = typeof(environments[requiredEnvironment]) == "object"?environments[requiredEnvironment]:environments.development;
+
+// exporting environment
+module.exports = exportEnvironment;
