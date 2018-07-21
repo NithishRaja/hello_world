@@ -5,13 +5,34 @@
 
 // Dependencies
 const http = require("http");
+const https = require("https");
 const url = require("url");
 const StringDecoder = require("string_decoder").StringDecoder;
 const config = require("./config");
+const fs = require("fs");
 
 // Initiating HTTP server
 const httpServer = http.createServer(function(req, res){
   serverLogic(req, res);
+});
+
+// Initiating HTTPS server
+const serverOptions = {
+  key: fs.readFileSync("./https/key.pem"),
+  cert: fs.readFileSync("./https/cert.pem")
+};
+const httpsServer = https.createServer(serverOptions, function(req, res){
+  serverLogic(req, res);
+});
+
+// Set port for HTTP server to listen to
+httpServer.listen(config.httpPort, function(){
+  console.log("server is listening to port "+config.httpPort+", press ctrl+c to exit");
+});
+
+// Set port for HTTPS server to listen to
+httpsServer.listen(config.httpsPort, function(){
+  console.log("server is listening to port "+config.httpsPort+", press ctrl+c to exit");
 });
 
 // Defining server logic
@@ -71,11 +92,6 @@ const serverLogic = function(req, res){
 
   });
 };
-
-// Set port for HTTP server to listen to
-httpServer.listen(config.httpPort, function(){
-  console.log("server is listening to port "+config.httpPort+", press ctrl+c to exit");
-});
 
 // Initializing container for handlers
 var handler = {};
